@@ -92,13 +92,13 @@ const Room = () => {
       {myStream && (
         <>
           <h1>My Stream</h1>
-          <ReactPlayer playing muted height="100px" width="200px" url={myStream} />
+          <ReactPlayer playing muted height="500px" width="1000px" url={myStream} />
         </>
       )}
       {remoteStream && (
         <>
           <h1>Remote Stream</h1>
-          <ReactPlayer playing height="100px" width="200px" url={remoteStream} />
+          <ReactPlayer playing height="500px" width="1000px" url={remoteStream} />
         </>
       )}
     </div>
