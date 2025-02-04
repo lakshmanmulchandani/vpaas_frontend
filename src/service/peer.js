@@ -1,3 +1,5 @@
+import { io } from "socket.io-client"; // ✅ Import socket.io-client
+
 class PeerService {
   constructor() {
     if (!this.peer) {
@@ -12,22 +14,15 @@ class PeerService {
           },
         ],
       });
-
-      // Handle ICE candidate gathering
-      this.peer.onicecandidate = (event) => {
-        if (event.candidate) {
-          socket.emit("peer:ice-candidate", { candidate: event.candidate });
-        }
-      };
     }
   }
 
   async getAnswer(offer) {
     if (this.peer) {
       await this.peer.setRemoteDescription(new RTCSessionDescription(offer));
-      const answer = await this.peer.createAnswer();
-      await this.peer.setLocalDescription(answer);
-      return answer;
+      const ans = await this.peer.createAnswer();
+      await this.peer.setLocalDescription(ans);
+      return ans;
     }
   }
 

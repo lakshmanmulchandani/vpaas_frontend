@@ -32,13 +32,14 @@ const Room = () => {
   // Call user
   const handleCallUser = useCallback(async () => {
     if (!remoteSocketId) return;
-
+  
     const stream = await getUserMediaStream();
     peer.addStream(stream);
-
+  
     const offer = await peer.getOffer();
-    socket.emit("user:call", { to: remoteSocketId, offer });
-  }, [remoteSocketId, socket]);
+    socket.emit("user:call", { to: remoteSocketId, offer }); // ✅ Socket is managed in RoomPage.js
+  }, [remoteSocketId, socket, getUserMediaStream]);
+  
 
   // Incoming call
   const handleIncomingCall = useCallback(async ({ from, offer }) => {
