@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import ReactPlayer from "react-player";
 import peer from "../service/peer";
 import { useSocket } from "../context/SocketProvider";
-
+import "./Room.css"
 const Room = () => {
   const socket = useSocket();
   const [remoteSocketId, setRemoteSocketId] = useState(null);
@@ -85,22 +85,24 @@ const Room = () => {
   }, [socket, handleUserJoined, handleIncomingCall, handleCallAccepted, handleICECandidate]);
 
   return (
-    <div>
-      <h1>Room Page</h1>
-      <h4>{remoteSocketId ? "Connected" : "No one in room"}</h4>
-      {remoteSocketId && <button onClick={handleCallUser}>Call</button>}
-      {myStream && (
-        <>
-          <h1>My Stream</h1>
-          <ReactPlayer playing muted height="500px" width="1000px" url={myStream} />
-        </>
-      )}
-      {remoteStream && (
-        <>
-          <h1>Remote Stream</h1>
-          <ReactPlayer playing height="500px" width="1000px" url={remoteStream} />
-        </>
-      )}
+    <div className="room-container">
+      <h1 className="room-title">Incubator Video Conference</h1>
+      <h4 className="room-status">{remoteSocketId ? "Connected" : "No one in room"}</h4>
+      {remoteSocketId && <button className="room-button" onClick={handleCallUser}>Call</button>}
+      <div className="video-section">
+        {myStream && (
+          <div className="video-container">
+            <h2>My Stream</h2>
+            <video autoPlay muted playsInline ref={(video) => video && (video.srcObject = myStream)}></video>
+          </div>
+        )}
+        {remoteStream && (
+          <div className="video-container">
+            <h2>Remote Stream</h2>
+            <video autoPlay playsInline ref={(video) => video && (video.srcObject = remoteStream)}></video>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
