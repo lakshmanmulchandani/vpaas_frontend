@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
-import ReactPlayer from "react-player";
 import peer from "../service/peer";
 import { useSocket } from "../context/SocketProvider";
-import { mjpegToMediaStream } from "../mjpegToMediaStream"; // Import MJPEG conversion function
+import { mjpegToMediaStream } from "../mjpegToMediaStream";
+import "./Room.css";
 
 const Room = () => {
   const socket = useSocket();
@@ -17,37 +17,35 @@ const Room = () => {
   }, []);
 
   // Get MJPEG media stream
-  const getMJPEGStream = useCallback(async () => {
+  const getMjpegStream = useCallback(async () => {
     try {
-      const stream = await mjpegToMediaStream("http://localhost:5000"); // MJPEG stream URL
+      const stream = await mjpegToMediaStream("http://localhost:5000");
       setMyStream(stream);
       return stream;
     } catch (error) {
-      console.error("Error accessing MJPEG stream:", error);
+      console.error("Error getting MJPEG stream:", error);
     }
   }, []);
 
   // Call user
   const handleCallUser = useCallback(async () => {
     if (!remoteSocketId) return;
-
-    const stream = await getMJPEGStream();
+    const stream = await getMjpegStream();
     peer.addStream(stream);
 
     const offer = await peer.getOffer();
-    socket.emit("user:call", { to: remoteSocketId, offer }); // ✅ Socket is managed in RoomPage.js
-  }, [remoteSocketId, socket, getMJPEGStream]);
+    socket.emit("user:call", { to: remoteSocketId, offer });
+  }, [remoteSocketId, socket, getMjpegStream]);
 
   // Incoming call
   const handleIncomingCall = useCallback(async ({ from, offer }) => {
     setRemoteSocketId(from);
-
-    const stream = await getMJPEGStream();
+    const stream = await getMjpegStream();
     peer.addStream(stream);
 
     const answer = await peer.getAnswer(offer);
     socket.emit("call:accepted", { to: from, ans: answer });
-  }, [socket, getMJPEGStream]);
+  }, [socket]);
 
   // Handle call accepted
   const handleCallAccepted = useCallback(({ from, ans }) => {
@@ -82,22 +80,24 @@ const Room = () => {
   }, [socket, handleUserJoined, handleIncomingCall, handleCallAccepted, handleICECandidate]);
 
   return (
-    <div>
-      <h1>Room Page</h1>
-      <h4>{remoteSocketId ? "Connected" : "No one in room"}</h4>
-      {remoteSocketId && <button onClick={handleCallUser}>Call</button>}
-      {myStream && (
-        <>
-          <h1>My Stream</h1>
-          <ReactPlayer playing muted height="500px" width="1000px" url={myStream} />
-        </>
-      )}
-      {remoteStream && (
-        <>
-          <h1>Remote Stream</h1>
-          <ReactPlayer playing height="500px" width="1000px" url={remoteStream} />
-        </>
-      )}
+    <div className="room-container">
+      <h1 className="room-title">Incubator Video Conference</h1>
+      <h4 className="room-status">{remoteSocketId ? "Connected" : "No one in room"}</h4>
+      {remoteSocketId && <button className="room-button" onClick={handleCallUser}>Call</button>}
+      <div className="video-section">
+        {myStream && (
+          <div className="video-container">
+            <h2>My Stream</h2>
+            <video autoPlay muted playsInline ref={(video) => video && (video.srcObject = myStream)}></video>
+          </div>
+        )}
+        {remoteStream && (
+          <div className="video-container">
+            <h2>Remote Stream</h2>
+            <video autoPlay playsInline ref={(video) => video && (video.srcObject = remoteStream)}></video>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
