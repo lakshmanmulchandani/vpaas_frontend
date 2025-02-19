@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import ReactPlayer from "react-player";
 import peer from "../service/peer";
 import { useSocket } from "../context/SocketProvider";
+import { mjpegToMediaStream } from "../mjpegToMediaStream"; // Import MJPEG conversion function
 
 const Room = () => {
   const socket = useSocket();
@@ -15,42 +16,38 @@ const Room = () => {
     setRemoteSocketId(id);
   }, []);
 
-  // Get user media
-  const getUserMediaStream = useCallback(async () => {
+  // Get MJPEG media stream
+  const getMJPEGStream = useCallback(async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: true,
-      });
+      const stream = await mjpegToMediaStream("http://localhost:5000"); // MJPEG stream URL
       setMyStream(stream);
       return stream;
     } catch (error) {
-      console.error("Error accessing media devices:", error);
+      console.error("Error accessing MJPEG stream:", error);
     }
   }, []);
 
   // Call user
   const handleCallUser = useCallback(async () => {
     if (!remoteSocketId) return;
-  
-    const stream = await getUserMediaStream();
+
+    const stream = await getMJPEGStream();
     peer.addStream(stream);
-  
+
     const offer = await peer.getOffer();
     socket.emit("user:call", { to: remoteSocketId, offer }); // ✅ Socket is managed in RoomPage.js
-  }, [remoteSocketId, socket, getUserMediaStream]);
-  
+  }, [remoteSocketId, socket, getMJPEGStream]);
 
   // Incoming call
   const handleIncomingCall = useCallback(async ({ from, offer }) => {
     setRemoteSocketId(from);
 
-    const stream = await getUserMediaStream();
+    const stream = await getMJPEGStream();
     peer.addStream(stream);
 
     const answer = await peer.getAnswer(offer);
     socket.emit("call:accepted", { to: from, ans: answer });
-  }, [socket]);
+  }, [socket, getMJPEGStream]);
 
   // Handle call accepted
   const handleCallAccepted = useCallback(({ from, ans }) => {

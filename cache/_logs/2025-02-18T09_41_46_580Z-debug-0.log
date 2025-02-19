@@ -1,0 +1,77 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@8.19.4
+2 info using node@v16.20.2
+3 timing npm:load:whichnode Completed in 1ms
+4 timing config:load:defaults Completed in 1ms
+5 timing config:load:file:C:\Users\223107332\AppData\Roaming\nvm\v16.20.2\node_modules\npm\npmrc Completed in 2ms
+6 timing config:load:builtin Completed in 2ms
+7 timing config:load:cli Completed in 1ms
+8 timing config:load:env Completed in 1ms
+9 timing config:load:file:C:\Users\223107332\OneDrive - GEHealthCare\Documents\Course A project\vpaas_frontend\.npmrc Completed in 0ms
+10 timing config:load:project Completed in 11ms
+11 timing config:load:file:C:\Users\223107332\.npmrc Completed in 4ms
+12 timing config:load:user Completed in 4ms
+13 timing config:load:file:C:\Program Files\nodejs\etc\npmrc Completed in 1ms
+14 timing config:load:global Completed in 1ms
+15 timing config:load:validate Completed in 8ms
+16 timing config:load:credentials Completed in 3ms
+17 timing config:load:setEnvs Completed in 4ms
+18 timing config:load Completed in 37ms
+19 timing npm:load:configload Completed in 37ms
+20 timing npm:load:mkdirpcache Completed in 3ms
+21 timing npm:load:mkdirplogs Completed in 2ms
+22 verbose title npm install hls.js
+23 verbose argv "install" "hls.js"
+24 timing npm:load:setTitle Completed in 4ms
+25 timing config:load:flatten Completed in 10ms
+26 timing npm:load:display Completed in 11ms
+27 verbose logfile logs-max:10 dir:C:\Users\223107332\OneDrive - GEHealthCare\Documents\Course A project\vpaas_frontend\cache\_logs
+28 verbose logfile C:\Users\223107332\OneDrive - GEHealthCare\Documents\Course A project\vpaas_frontend\cache\_logs\2025-02-18T09_41_46_580Z-debug-0.log
+29 timing npm:load:logFile Completed in 61ms
+30 timing npm:load:timers Completed in 1ms
+31 timing npm:load:configScope Completed in 0ms
+32 timing npm:load Completed in 121ms
+33 timing arborist:ctor Completed in 0ms
+34 silly logfile start cleaning logs, removing 2 files
+35 silly logfile done cleaning log files
+36 timing idealTree:init Completed in 603ms
+37 timing idealTree:userRequests Completed in 3ms
+38 silly idealTree buildDeps
+39 silly fetch manifest hls.js@*
+40 verbose shrinkwrap failed to load node_modules/.package-lock.json missing from node_modules: node_modules/client
+41 silly placeDep ROOT hls.js@ OK for: client@0.1.0 want: *
+42 timing idealTree:#root Completed in 70199ms
+43 timing idealTree:node_modules/hls.js Completed in 0ms
+44 timing idealTree:buildDeps Completed in 70202ms
+45 timing idealTree:fixDepFlags Completed in 16ms
+46 timing idealTree Completed in 70827ms
+47 timing command:install Completed in 70839ms
+48 verbose type system
+49 verbose stack FetchError: request to https://us-artifactory.apps.ge-healthcare.net/artifactory/api/npm/npm-ctprem-all/hls.js failed, reason: getaddrinfo ENOTFOUND us-artifactory.apps.ge-healthcare.net
+49 verbose stack     at ClientRequest.<anonymous> (C:\Users\223107332\AppData\Roaming\nvm\v16.20.2\node_modules\npm\node_modules\minipass-fetch\lib\index.js:130:14)
+49 verbose stack     at ClientRequest.emit (node:events:513:28)
+49 verbose stack     at TLSSocket.socketErrorListener (node:_http_client:494:9)
+49 verbose stack     at TLSSocket.emit (node:events:525:35)
+49 verbose stack     at emitErrorNT (node:internal/streams/destroy:157:8)
+49 verbose stack     at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+49 verbose stack     at processTicksAndRejections (node:internal/process/task_queues:83:21)
+50 verbose cwd C:\Users\223107332\OneDrive - GEHealthCare\Documents\Course A project\vpaas_frontend
+51 verbose Windows_NT 10.0.19045
+52 verbose node v16.20.2
+53 verbose npm  v8.19.4
+54 error code ENOTFOUND
+55 error syscall getaddrinfo
+56 error errno ENOTFOUND
+57 error network request to https://us-artifactory.apps.ge-healthcare.net/artifactory/api/npm/npm-ctprem-all/hls.js failed, reason: getaddrinfo ENOTFOUND us-artifactory.apps.ge-healthcare.net
+58 error network This is a problem related to network connectivity.
+58 error network In most cases you are behind a proxy or have bad network settings.
+58 error network
+58 error network If you are behind a proxy, please make sure that the
+58 error network 'proxy' config is set properly.  See: 'npm help config'
+59 verbose exit 1
+60 timing npm Completed in 71264ms
+61 verbose unfinished npm timer reify 1739871706981
+62 verbose unfinished npm timer reify:loadTrees 1739871706990
+63 verbose code 1
+64 error A complete log of this run can be found in:
+64 error     C:\Users\223107332\OneDrive - GEHealthCare\Documents\Course A project\vpaas_frontend\cache\_logs\2025-02-18T09_41_46_580Z-debug-0.log
